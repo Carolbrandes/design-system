@@ -3,3 +3,4 @@ tsup = possibilita cod js ser utilizado em outras aplicacoes. ele consegue conve
 monorepo = pratica de colocar varios projetos em um repositorio de codigo (nao necessariamente no git, mas na mesma pasta ou espaco de trabalho). Usamos essa estrategia quando esses projetos sao dependentes entre si. Usando esse conceito, nao e necessario publicar atualizacoes no npm para aplicacao dependente ter essa atualizacao. Pq nao usando monorepo teriamos que publicar no npm e ir no projeto depedente e baixar essa atualizacao. 
 
 
+para criar um doc no storebook: npx sb init --builder @storybook/builder-vite --type react 
