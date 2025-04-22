@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 // config global
 export default {
-    title: 'Button',
+    title: 'Form/Button',
     component: Button,
 
     args: {
