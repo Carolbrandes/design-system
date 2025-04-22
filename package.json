@@ -1,12 +1,18 @@
 {
   "private": true,
+  "packageManager": "npm@8.19.2",
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.30.1",
     "@typescript-eslint/parser": "^8.30.1",
     "eslint": "^8.57.1",
-    "eslint-plugin-react-hooks": "^5.2.0"
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "turbo": "^2.5.0"
   }
 }
