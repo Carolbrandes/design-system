@@ -51,11 +51,11 @@ export const CheckboxIndicator = styled(Checkbox.Indicator, {
     height: '$4',
 
     '&[data-state="checked"]': {
-        animation: `${slideIn} 200ms ease-out`
+        animation: `${slideIn} 200ms ease-out`,
     },
 
 
     '&[data-state="checked"]': {
-        animation: `${slideOut} 200ms ease-out`
+        animation: `${slideOut} 200ms ease-out`,
     },
 })
