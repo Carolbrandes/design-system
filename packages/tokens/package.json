@@ -7,23 +7,26 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
-     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-     "lint": "eslint src/**/*.ts* --fix"
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint src/**/*.ts* --fix"
   },
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     }
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@ignite-ui/ts-config": "*",
     "@ignite-ui/eslint-config": "*",
+    "@ignite-ui/ts-config": "*",
     "tsup": "^8.4.0",
     "typescript": "4.9.5"
+  },
+  "dependencies": {
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-links": "^8.6.12"
   }
 }
