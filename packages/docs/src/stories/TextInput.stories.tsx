@@ -6,13 +6,21 @@ export default {
     title: 'Form/TextInput',
     component: TextInput,
     args: {
-
+        placeholder: 'Type something...', // Add default placeholder
+        disabled: false // Add default disabled state
+    },
+    argTypes: {
+        disabled: {
+            control: { type: 'boolean' }
+        }
     },
     decorators: [
-        (Story) => <Box as="label" css={{ display: 'flex', flexDirection: 'column', gap: '$2' }}>
-            <Text size="sm">E-mail address</Text>
-            {Story()}
-        </Box> // the input will render inside box
+        (Story) => (
+            <Box as="label" css={{ display: 'flex', flexDirection: 'column', gap: '$2' }}>
+                <Text size="sm">Email address</Text>
+                {Story()}
+            </Box>
+        )
     ]
 } as Meta<TextInputProps>
 

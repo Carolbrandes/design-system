@@ -1,5 +1,5 @@
-import { ComponentProps, ElementType } from 'react'
-import { styled } from '../styles'
+import { ComponentProps } from 'react';
+import { styled } from '../styles';
 
 export const Heading = styled('h2', {
     fontFamily: '$default',
@@ -25,8 +25,10 @@ export const Heading = styled('h2', {
     },
 })
 
-export interface HeadingProps extends ComponentProps<typeof Heading> {
-    as?: ElementType
+export interface HeadingProps extends ComponentProps<typeof HeadingRoot> {
+    size?: 'sm' | 'md' | 'lg' | '2xl' | '4xl' | '5xl' | '6xl';
+    children: React.ReactNode;
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 

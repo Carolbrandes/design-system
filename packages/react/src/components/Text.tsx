@@ -1,5 +1,5 @@
-import { ComponentProps, ElementType } from 'react'
-import { styled } from '../styles'
+import { ComponentProps } from 'react';
+import { styled } from '../styles';
 
 export const Text = styled('p', {
     fontFamily: '$default',
@@ -31,9 +31,10 @@ export const Text = styled('p', {
 })
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface TextProps extends ComponentProps<typeof Text> {
-    as?: ElementType
+export interface TextProps extends ComponentProps<typeof TextRoot> {
+    size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl';
+    children: React.ReactNode;
+    as?: React.ElementType;
 }
-
 
 Text.displayName = 'Text'
