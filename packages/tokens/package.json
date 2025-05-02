@@ -10,6 +10,13 @@
      "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
      "lint": "eslint src/**/*.ts* --fix"
   },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",

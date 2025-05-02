@@ -2,7 +2,8 @@
   "private": true,
   "packageManager": "npm@8.19.2",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "tokens"
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
