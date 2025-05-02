@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 import { Input, Prefix, TextInputContainer } from "./styles";
 
-export interface TextInputProps extends ComponentProps<typeof TextInputRoot> {
+export interface TextInputProps extends ComponentProps<typeof TextInput> {
     disabled?: boolean;
     placeholder?: string;
     prefix?: string;
