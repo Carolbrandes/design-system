@@ -31,7 +31,7 @@ export const Text = styled('p', {
 })
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface TextProps extends ComponentProps<typeof TextRoot> {
+export interface TextProps extends ComponentProps<typeof Text> {
     size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl';
     children: React.ReactNode;
     as?: React.ElementType;
