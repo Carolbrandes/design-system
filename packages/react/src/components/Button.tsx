@@ -89,7 +89,7 @@ export const Button = styled('button', {
     }
 })
 
-export interface ButtonProps extends ComponentProps<typeof ButtonRoot> {
+export interface ButtonProps extends ComponentProps<typeof Button> {
     variant?: 'primary' | 'secondary' | 'tertiary';
     size?: 'sm' | 'md';
     disabled?: boolean;
