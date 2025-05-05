@@ -30,10 +30,9 @@ jobs:
       - name: Build Storybook
         working-directory: ./packages/docs
         run: |
-          # Symlink tokens if needed
           ln -s ../../../tokens/dist ./node_modules/@ignite-ui/tokens/dist || true
           npm run build-storybook -- -o storybook-static
-          ls storybook-static  # Verify output
+          ls storybook-static
 
       - name: Deploy Storybook
         working-directory: ./packages/docs
