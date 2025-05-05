@@ -2,7 +2,7 @@ name: Deploy Storybook Docs
 
 on:
   push:
-    branches: [main] # or 'master' if that's your default branch
+    branches: [main]
 
 jobs:
   deploy:
@@ -15,17 +15,14 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      # 1. Install root dependencies
       - name: Install root dependencies
         run: npm ci
 
-      # 2. Build internal packages first
       - name: Build internal packages
         run: |
           npm run build -w @ignite-ui/tokens
           npm run build -w @ignite-ui/react
 
-      # 3. Install and build Storybook
       - name: Install and build Storybook
         working-directory: ./packages/docs
         run: |
@@ -33,7 +30,6 @@ jobs:
           npm install @storybook/addon-links @storybook/addon-interactions
           npm run build-storybook
 
-      # 4. Deploy to GitHub Pages
       - name: Deploy Storybook
         working-directory: ./packages/docs/storybook-static
         run: |
