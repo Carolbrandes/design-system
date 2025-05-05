@@ -2,7 +2,7 @@ name: Deploy docs
 
 on:
   push:
-    branches: master
+    branches: [master]
 
 jobs:
   build-and-deploy:
@@ -18,6 +18,9 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+
+      - name: Verify Storybook Build
+        run: ls ./packages/docs/storybook-static
 
       - name: Deploy Storybook
         working-directory: ./packages/docs
