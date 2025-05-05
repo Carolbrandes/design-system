@@ -1,28 +1,33 @@
-name: Deploy docs
+name: Deploy Storybook
 
 on:
   push:
     branches: [master]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Verify Storybook Build
+      - name: Build Storybook
+        working-directory: ./packages/docs
+        run: npm run build-storybook -- -o storybook-static
+
+      - name: Verify build output
         run: ls ./packages/docs/storybook-static
 
-      - name: Deploy Storybook
+      - name: Deploy to GitHub Pages
         working-directory: ./packages/docs
         run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
         env:
