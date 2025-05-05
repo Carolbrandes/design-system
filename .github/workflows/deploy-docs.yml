@@ -2,7 +2,7 @@ name: Deploy Storybook
 
 on:
   push:
-    branches: [master]
+    branches: [main, master]
 
 jobs:
   deploy:
@@ -16,18 +16,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Build tokens package
+        working-directory: ./packages/tokens
+        run: |
+          npm run build
+          ls dist  # Verify build output
+
       - name: Build Storybook
         working-directory: ./packages/docs
-        run: npm run build-storybook -- -o storybook-static
+        run: |
+          # Symlink tokens if needed
+          ln -s ../../../tokens/dist ./node_modules/@ignite-ui/tokens/dist || true
+          npm run build-storybook -- -o storybook-static
+          ls storybook-static  # Verify output
 
-      - name: Verify build output
-        run: ls ./packages/docs/storybook-static
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy Storybook
         working-directory: ./packages/docs
         run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
         env:
