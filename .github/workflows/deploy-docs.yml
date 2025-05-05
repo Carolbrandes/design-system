@@ -23,7 +23,7 @@ jobs:
       - name: Build internal packages
         run: |
           npm run build -w @ignite-ui/tokens
-          npm run build -w @ignite-ui/react  # add other internal packages if needed
+          npm run build -w @ignite-ui/react
 
       # 3. Install and build Storybook
       - name: Install and build Storybook
