@@ -16,13 +16,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
+          cache: "npm" # Habilita cache para npm (opcional, mas recomendado)
 
-      - run: npm ci
+      - name: Clean npm cache
+        run: npm cache clean --force
 
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Deploy storybook
+      - name: Build Storybook
+        run: npm run build
+
+      - name: Deploy Storybook
         working-directory: ./packages/docs
         run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
         env:
-          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Corrigido: uso direto do token padrão
