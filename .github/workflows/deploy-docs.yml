@@ -9,26 +9,34 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: "npm" # Habilita cache para npm (opcional, mas recomendado)
+          cache: "npm"
 
-      - name: Clean npm cache
-        run: npm cache clean --force
-
-      - name: Install dependencies
+      - name: Clean install
         run: npm ci
 
+      # Build explícito na ordem correta
+      - name: Build tokens
+        run: npm run build --workspace=@ignite-ui/tokens
+
+      - name: Build react
+        run: npm run build --workspace=@ignite-ui/react
+
+      # Link interno entre os pacotes
+      - name: Create symlink
+        run: |
+          cd packages/docs/node_modules
+          ln -s ../../../tokens/dist @ignite-ui/tokens
+
       - name: Build Storybook
-        run: npm run build
+        run: npm run build --workspace=@ignite-ui/docs
 
       - name: Deploy Storybook
         working-directory: ./packages/docs
         run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Corrigido: uso direto do token padrão
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
