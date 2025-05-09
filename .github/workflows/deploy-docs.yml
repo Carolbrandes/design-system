@@ -1,5 +1,10 @@
 name: Deploy docs
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 on:
   push:
     branches:
@@ -19,6 +24,11 @@ jobs:
       - name: Clean install
         run: npm ci
 
+      - name: Adjust permissions
+        run: |
+          chmod -R 755 packages
+          chmod -R 755 tokens
+
       # Build explícito na ordem correta
       - name: Build tokens
         run: npm run build --workspace=@ignite-ui/tokens
@@ -26,11 +36,10 @@ jobs:
       - name: Build react
         run: npm run build --workspace=@ignite-ui/react
 
-      # Link interno entre os pacotes
       - name: Create symlink
         run: |
-          cd packages/docs/node_modules
-          ln -s ../../../tokens/dist @ignite-ui/tokens
+          mkdir -p packages/docs/node_modules/@ignite-ui
+          ln -s ../../../../tokens/dist packages/docs/node_modules/@ignite-ui/tokens
 
       - name: Build Storybook
         run: npm run build --workspace=@ignite-ui/docs
