@@ -29,22 +29,21 @@ jobs:
           pwd
           ls -R packages
 
-      # Build explícito na ordem correta
       - name: Build tokens
         run: npm run build --workspace=@ignite-ui/tokens
 
       - name: Build react
         run: npm run build --workspace=@ignite-ui/react
 
-      - name: Create symlink
+      - name: Debug tokens build
         run: |
-          mkdir -p packages/docs/node_modules/@ignite-ui
-          ln -sf $(pwd)/packages/tokens/dist packages/docs/node_modules/@ignite-ui/tokens
+          ls -R packages/tokens/dist
+          cat packages/tokens/dist/index.js
 
-      - name: Verify symlink
+      - name: Update Storybook imports
         run: |
-          ls -l packages/docs/node_modules/@ignite-ui/tokens
-          cat packages/docs/node_modules/@ignite-ui/tokens/index.js
+          find packages/docs/src -type f -name "*.stories.tsx" -exec sed -i 's|from "@ignite-ui/tokens|from "../../tokens/dist|g' {} +
+          find packages/docs/src -type f -name "*.mdx" -exec sed -i 's|from "@ignite-ui/tokens|from "../../tokens/dist|g' {} +
 
       - name: Build Storybook
         run: npm run build --workspace=@ignite-ui/docs
