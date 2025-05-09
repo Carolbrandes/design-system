@@ -40,10 +40,32 @@ jobs:
           ls -R packages/tokens/dist
           cat packages/tokens/dist/index.js
 
+      - name: Debug font-sizes.mdx
+        run: |
+          cat packages/docs/src/pages/tokens/font-sizes.mdx
+
       - name: Update Storybook imports
         run: |
-          find packages/docs/src -type f -name "*.stories.tsx" -exec sed -i 's|from "@ignite-ui/tokens|from "../../tokens/dist|g' {} +
-          find packages/docs/src -type f -name "*.mdx" -exec sed -i 's|from "@ignite-ui/tokens|from "../../tokens/dist|g' {} +
+          sed -i 's|from "/tokens/dist"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
+          sed -i 's|from "@ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
+
+      - name: Debug updated font-sizes.mdx
+        run: |
+          cat packages/docs/src/pages/tokens/font-sizes.mdx
+
+      - name: Update Storybook configuration
+        run: |
+          echo "import { join, dirname } from 'path';" > packages/docs/.storybook/main.js
+          echo "export default {" >> packages/docs/.storybook/main.js
+          echo "  stories: ['../src/pages/**/*.stories.mdx', '../src/stories/**/*.stories.tsx']," >> packages/docs/.storybook/main.js
+          echo "  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions']," >> packages/docs/.storybook/main.js
+          echo "  framework: '@storybook/react-vite'," >> packages/docs/.storybook/main.js
+          echo "  core: { builder: '@storybook/builder-vite' }," >> packages/docs/.storybook/main.js
+          echo "  viteFinal: async (config) => {" >> packages/docs/.storybook/main.js
+          echo "    config.resolve.alias = { ...config.resolve.alias, '@ignite-ui/tokens': join(dirname(require.resolve('@ignite-ui/tokens')), '..') };" >> packages/docs/.storybook/main.js
+          echo "    return config;" >> packages/docs/.storybook/main.js
+          echo "  }," >> packages/docs/.storybook/main.js
+          echo "};" >> packages/docs/.storybook/main.js
 
       - name: Build Storybook
         run: npm run build --workspace=@ignite-ui/docs
