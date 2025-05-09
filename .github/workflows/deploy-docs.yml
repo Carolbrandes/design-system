@@ -70,8 +70,21 @@ jobs:
       - name: Build Storybook
         run: npm run build --workspace=@ignite-ui/docs
 
+      - name: Debug Git config
+        run: |
+          git config --list
+          git remote -v
+
+      - name: Debug environment
+        run: |
+          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
+          echo "GH_TOKEN is set: ${{ secrets.GITHUB_TOKEN != '' }}"
+
       - name: Deploy Storybook
         working-directory: ./packages/docs
-        run: npm run deploy-storybook -- --ci --existing-output-dir=storybook-static
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin https://${GITHUB_ACTOR}:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          npm run deploy-storybook -- --ci --existing-output-dir=
