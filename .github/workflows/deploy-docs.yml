@@ -27,9 +27,7 @@ jobs:
       - name: Adjust permissions
         run: |
           chmod -R 755 packages
-          chmod -R 755 tokens
 
-      # Build explícito na ordem correta
       - name: Build tokens
         run: npm run build --workspace=@ignite-ui/tokens
 
@@ -39,7 +37,7 @@ jobs:
       - name: Create symlink
         run: |
           mkdir -p packages/docs/node_modules/@ignite-ui
-          ln -s ../../../../tokens/dist packages/docs/node_modules/@ignite-ui/tokens
+          ln -s ../../../tokens/dist packages/docs/node_modules/@ignite-ui/tokens
 
       - name: Build Storybook
         run: npm run build --workspace=@ignite-ui/docs
