@@ -20,7 +20,12 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
-  async viteFinal(config) {
+  async viteFinal(config, { configType }) {
+    // Add the base path for production
+    if (configType === 'PRODUCTION') {
+      config.base = "design-system";
+    }
+
     return mergeConfig(config, {
       resolve: {
         alias: {
@@ -34,7 +39,8 @@ const config: StorybookConfig = {
         include: ['@ignite-ui/react'], // Force include your package
       },
     });
-  },
+  }
 };
 
 export default config;
+
