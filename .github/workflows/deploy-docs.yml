@@ -47,7 +47,7 @@ jobs:
       - name: Update Storybook imports
         run: |
           sed -i 's|from "/tokens/dist"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
-          sed -i 's|from "@ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
+          sed -i 's|from '@carol23-ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
 
       - name: Debug updated font-sizes.mdx
         run: |

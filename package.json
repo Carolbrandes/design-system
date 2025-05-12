@@ -7,9 +7,13 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+     "release": "turbo run build --filter=@carol23-ignite-ui/{tokens,react,docs} && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.3",
     "@typescript-eslint/eslint-plugin": "^8.30.1",
     "@typescript-eslint/parser": "^8.30.1",
     "eslint": "^8.57.1",

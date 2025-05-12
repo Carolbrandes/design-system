@@ -29,14 +29,15 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          '@ignite-ui/react': path.resolve(__dirname, '../../react/src'),
+          '@carol23-ignite-ui/tokens': path.resolve(__dirname, '../../tokens/dist'),
+          '@carol23-ignite-ui/react': path.resolve(__dirname, '../../react/dist'),
           // Add this if you're using any other internal packages
           '@': path.resolve(__dirname, '../src'),
         },
         preserveSymlinks: true, // Crucial for monorepos
       },
       optimizeDeps: {
-        include: ['@ignite-ui/react'], // Force include your package
+        include: ['@carol23-ignite-ui/react'], // Force include your package
       },
     });
   }

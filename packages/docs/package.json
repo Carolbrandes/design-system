@@ -1,5 +1,5 @@
 {
-  "name": "@ignite-ui/docs",
+  "name": "@carol23-ignite-ui/docs",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,9 +12,9 @@
     "build": "storybook build"
   },
   "dependencies": {
-    "@ignite-ui/eslint-config": "*",
-    "@ignite-ui/react": "*",
-    "@ignite-ui/tokens": "*",
+    "@carol23-ignite-ui/eslint-config": "*",
+    "@carol23-ignite-ui/react": "*",
+    "@carol23-ignite-ui/tokens": "*",
     "@storybook/addon-a11y": "^8.6.12",
     "@storybook/addons": "^7.6.17",
     "estree-walker": "^3.0.3",

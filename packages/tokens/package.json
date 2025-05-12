@@ -1,27 +1,28 @@
 {
-  "name": "@ignite-ui/tokens",
-  "version": "1.0.0",
+  "name": "@carol23-ignite-ui/tokens",
+  "version": "2.0.0",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-   "build": "tsup src/index.ts --format esm,cjs --dts --out-dir dist",
+    "build": "tsup src/index.ts --format esm,cjs --dts --out-dir dist",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch --out-dir dist",
     "lint": "eslint src/**/*.ts* --fix"
   },
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"  
     }
   },
   "keywords": [],
   "author": "ignite",
   "license": "MIT",
   "devDependencies": {
-    "@ignite-ui/eslint-config": "*",
-    "@ignite-ui/ts-config": "*",
+    "@carol23-ignite-ui/eslint-config": "*",
+    "@carol23-ignite-ui/ts-config": "*",
     "tsup": "^8.4.0",
     "typescript": "4.9.5"
   },
