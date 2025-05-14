@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # Importante para pegar todo o histórico
+          fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
@@ -24,19 +24,18 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: |
-          npm install
-          git update-index --assume-unchanged package-lock.json
+        run: npm install
 
-      - name: Build all packages
-        run: |
-          npm run build --workspace=@ignite-ui/tokens
-          npm run build --workspace=@ignite-ui/react
+      - name: Build tokens
+        run: npm run build --workspace=@carol23-ignite-ui/tokens
 
-      - name: Update Storybook imports
+      - name: Build react
+        run: npm run build --workspace=@carol23-ignite-ui/react
+
+      - name: Update imports in docs
         run: |
-          sed -i 's|from "/tokens/dist"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
-          sed -i 's|from "@carol23-ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
+          sed -i 's|@ignite-ui/tokens|@carol23-ignite-ui/tokens|g' packages/docs/src/**/*.{ts,tsx,mdx}
+          sed -i 's|@ignite-ui/react|@carol23-ignite-ui/react|g' packages/docs/src/**/*.{ts,tsx,mdx}
 
       - name: Configure Storybook
         run: |
@@ -50,21 +49,16 @@ jobs:
             viteFinal: async (config) => {
               config.resolve.alias = { 
                 ...config.resolve.alias, 
-                '@ignite-ui/tokens': join(dirname(require.resolve('@ignite-ui/tokens')), 
-                '@ignite-ui/react': join(dirname(require.resolve('@ignite-ui/react'))
+                '@carol23-ignite-ui/tokens': join(dirname(require.resolve('@carol23-ignite-ui/tokens'))),
+                '@carol23-ignite-ui/react': join(dirname(require.resolve('@carol23-ignite-ui/react')))
               };
               return config;
             },
           };
           EOF
 
-      - name: Build Storybook
-        working-directory: ./packages/docs
-        run: npm run build-storybook
-
-      - name: Deploy Storybook
+      - name: Build and deploy Storybook
         working-directory: ./packages/docs
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          npm run build-storybook
           npm run deploy-storybook -- --ci --existing-output-dir=storybook-static

@@ -1,4 +1,4 @@
-import { Text, TextProps } from '@ignite-ui/react'
+import { Text, TextProps } from '@carol23-ignite-ui/react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 // config global

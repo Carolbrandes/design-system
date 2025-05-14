@@ -1,4 +1,4 @@
-import { Box, TextArea, TextAreaProps } from '@ignite-ui/react'
+import { Box, TextArea, TextAreaProps } from '@carol23-ignite-ui/react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 // config global

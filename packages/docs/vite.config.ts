@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: '@ignite-ui/tokens',
+        find: '@carol23-ignite-ui/tokens',
         replacement: path.resolve(__dirname, '../../tokens/dist')
       }
     ]

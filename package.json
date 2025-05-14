@@ -1,13 +1,16 @@
 {
   "private": true,
   "packageManager": "npm@8.19.2",
-  "workspaces": [
-    "packages/*",
-    "tokens"
+"workspaces": [
+    "packages/docs",
+    "packages/react",
+    "packages/tokens",
+    "packages/ts-config",
+    "packages/eslint-config"
   ],
   "scripts": {
-    "dev": "turbo run dev --parallel",
-    "build": "turbo run build",
+    "build": "npm run build --workspace=@carol23-ignite-ui/tokens && npm run build --workspace=@carol23-ignite-ui/react",
+    "dev": "npm run dev --workspace=@carol23-ignite-ui/docs",
     "changeset": "changeset",
     "version-packages": "changeset version",
      "release": "turbo run build --filter=@carol23-ignite-ui/{tokens,react,docs} && changeset publish"
