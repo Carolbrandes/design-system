@@ -15,62 +15,56 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Importante para pegar todo o histórico
 
       - uses: actions/setup-node@v3
         with:
           node-version: 22
           cache: "npm"
 
-      - name: Clean install
-        run: npm ci
-
-      - name: Debug directory structure
+      - name: Install dependencies
         run: |
-          pwd
-          ls -R packages
+          npm install
+          git update-index --assume-unchanged package-lock.json
 
-      - name: Build tokens
-        run: npm run build --workspace=@ignite-ui/tokens
-
-      - name: Build react
-        run: npm run build --workspace=@ignite-ui/react
-
-      - name: Debug tokens build
+      - name: Build all packages
         run: |
-          ls -R packages/tokens/dist
-          cat packages/tokens/dist/index.js
-
-      - name: Debug font-sizes.mdx
-        run: |
-          cat packages/docs/src/pages/tokens/font-sizes.mdx
+          npm run build --workspace=@ignite-ui/tokens
+          npm run build --workspace=@ignite-ui/react
 
       - name: Update Storybook imports
         run: |
           sed -i 's|from "/tokens/dist"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
-          sed -i 's|from '@carol23-ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
+          sed -i 's|from "@carol23-ignite-ui/tokens"|from "../../../tokens/dist"|g' packages/docs/src/pages/tokens/font-sizes.mdx
 
-      - name: Debug updated font-sizes.mdx
+      - name: Configure Storybook
         run: |
-          cat packages/docs/src/pages/tokens/font-sizes.mdx
+          cat > packages/docs/.storybook/main.js << 'EOF'
+          import { join, dirname } from 'path';
+          export default {
+            stories: ['../src/pages/**/*.stories.mdx', '../src/stories/**/*.stories.tsx'],
+            addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+            framework: '@storybook/react-vite',
+            core: { builder: '@storybook/builder-vite' },
+            viteFinal: async (config) => {
+              config.resolve.alias = { 
+                ...config.resolve.alias, 
+                '@ignite-ui/tokens': join(dirname(require.resolve('@ignite-ui/tokens')), 
+                '@ignite-ui/react': join(dirname(require.resolve('@ignite-ui/react'))
+              };
+              return config;
+            },
+          };
+          EOF
 
-      - name: Update Storybook configuration
-        run: |
-          echo "import { join, dirname } from 'path';" > packages/docs/.storybook/main.js
-          echo "export default {" >> packages/docs/.storybook/main.js
-          echo "  stories: ['../src/pages/**/*.stories.mdx', '../src/stories/**/*.stories.tsx']," >> packages/docs/.storybook/main.js
-          echo "  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions']," >> packages/docs/.storybook/main.js
-          echo "  framework: '@storybook/react-vite'," >> packages/docs/.storybook/main.js
-          echo "  core: { builder: '@storybook/builder-vite' }," >> packages/docs/.storybook/main.js
-          echo "  viteFinal: async (config) => {" >> packages/docs/.storybook/main.js
-          echo "    config.resolve.alias = { ...config.resolve.alias, '@ignite-ui/tokens': join(dirname(require.resolve('@ignite-ui/tokens')), '..') };" >> packages/docs/.storybook/main.js
-          echo "    return config;" >> packages/docs/.storybook/main.js
-          echo "  }," >> packages/docs/.storybook/main.js
-          echo "};" >> packages/docs/.storybook/main.js
+      - name: Build Storybook
+        working-directory: ./packages/docs
+        run: npm run build-storybook
 
       - name: Deploy Storybook
         working-directory: ./packages/docs
         run: |
-          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           npm run deploy-storybook -- --ci --existing-output-dir=storybook-static

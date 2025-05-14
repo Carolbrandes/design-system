@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: ["@ignite-ui/eslint-config"],
+    extends: ["@carol23-ignite-ui//eslint-config"],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
