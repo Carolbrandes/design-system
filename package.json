@@ -13,7 +13,7 @@
     "dev": "npm run dev --workspace=@carol23-ignite-ui/docs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-     "release": "turbo run build --filter=@carol23-ignite-ui/{tokens,react,docs} && changeset publish"
+     "release": "turbo run build --filter=!docs && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.3",

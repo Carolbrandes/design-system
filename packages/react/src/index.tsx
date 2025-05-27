@@ -8,3 +8,5 @@ export * from './components/Text';
 export * from './components/Textarea';
 export * from './components/TextInput';
 
+export * from './styles';
+
